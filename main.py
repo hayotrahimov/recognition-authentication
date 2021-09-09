@@ -34,7 +34,10 @@ def init_recognition(folder, encoded_faces=[]):
                 find_faces(img, encoded_faces)
                 cv.putText(img, f'FPS: {int(fps)}', (20,80), cv.FONT_HERSHEY_PLAIN, 3, (0,255,0), 2)
                 cv.imshow('Found Faces', img)
-            cv.waitKey(5)
+            if cv.waitKey(1) & 0xFF == ord('q'):
+                break
+        capture.release()
+        cv.destroyAllWindows()
 
 
 def find_faces(img, known_face_encodings_and_labels=[]):
