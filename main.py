@@ -1,7 +1,7 @@
 import face_recognition as fr
 import cv2 as cv
 import os
-
+import time
 
 def encode_faces(folder):
     encoded_faces = list()
@@ -24,10 +24,15 @@ def init_recognition(folder, encoded_faces=[]):
         cv.waitKey()
     else:
         capture = cv.VideoCapture(0)
+        p_time = 0
         while True:
             success, img = capture.read()
+            c_time = time.time()
+            fps = 1/(c_time - p_time)
+            p_time = c_time
             if success:
                 find_faces(img, encoded_faces)
+                cv.putText(img, f'FPS: {int(fps)}', (20,80), cv.FONT_HERSHEY_PLAIN, 3, (0,255,0), 2)
                 cv.imshow('Found Faces', img)
             cv.waitKey(5)
 
